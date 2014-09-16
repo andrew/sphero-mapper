@@ -15,9 +15,13 @@ Cylon.robot({
       my.sphero.setBackLED(255);
       my.sphero.setRGB(color);
       my.sphero.stop();
+      every(5..seconds(), function() {
+        my.sphero.roll(128, Math.floor(Math.random() * 360));
+      });
     });
 
     my.sphero.on('data', function(data) {
+      console.log(data)
       app.io.broadcast('draw', {color:color.toString(16), x:data[0], y:data[1]})
     });
 
@@ -28,19 +32,11 @@ Cylon.robot({
       app.io.broadcast('collision', {color:color.toString(16)})
     });
 
-    every(5..seconds(), function() {
-      my.sphero.roll(128, Math.floor(Math.random() * 360));
-    });
-
   }
 }).start();
 
 var express = require('express.io')
 var app = express().http().io()
-
-// app.io.route('drawClick', function(req) {
-//   req.io.broadcast('draw', req.data)
-// })
 
 app.get('/', function(req, res) {
     res.sendfile(__dirname + '/client.html')

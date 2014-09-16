@@ -5,9 +5,12 @@
     App = {}
     App.socket = io.connect()
 
+    var startX = 400;
+    var startY = 200;
+
     App.draw = function(data) {
       console.log(data)
-      App.ctx.lineTo(data.x,data.y)
+      App.ctx.lineTo(data.x+startX,data.y+startY)
       App.ctx.strokeStyle = data.color
       App.ctx.stroke()
     }
@@ -17,16 +20,8 @@
     $(function() {
         App.ctx = $('canvas')[0].getContext("2d")
         App.ctx.beginPath()
-        // $('canvas').live('drag dragstart dragend', function(e) {
-        //     offset = $(this).offset()
-        //     data = {
-        //         x: (e.clientX - offset.left),
-        //         y: (e.clientY - offset.top),
-        //         type: e.handleObj.type
-        //     }
-        //     App.draw(data) // Draw yourself.
-        //     App.socket.emit('drawClick', data) // Broadcast draw.
-        // })
+        App.ctx.moveTo(startX, startY);
+        App.ctx.lineWidth = 5;
     })
 </script>
 <canvas width="800px" height="400px" style="margin: 0 auto"></canvas>
