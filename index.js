@@ -5,6 +5,7 @@ Cylon.robot({
   device: { name: 'sphero', driver: 'sphero' },
 
   work: function(my) {
+    console.log('alive!')
     var color = 0x00FF00,
         bitFilter = 0xFFFF00;
 
@@ -15,6 +16,7 @@ Cylon.robot({
       my.sphero.setBackLED(255);
       my.sphero.setRGB(color);
       my.sphero.stop();
+      my.sphero.roll(128, Math.floor(Math.random() * 360));
       every(5..seconds(), function() {
         my.sphero.roll(128, Math.floor(Math.random() * 360));
       });
@@ -26,6 +28,7 @@ Cylon.robot({
     });
 
     my.sphero.on('collision', function(data) {
+      console.log('collision')
       color = color ^ bitFilter;
       my.sphero.setRGB(color);
       my.sphero.roll(128, Math.floor(Math.random() * 360));

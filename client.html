@@ -5,23 +5,29 @@
     App = {}
     App.socket = io.connect()
 
-    var startX = 400;
-    var startY = 200;
+    var startX = 950;
+    var startY = 500;
+
+    var previousX = 950;
+    var previousY = 500;
 
     App.draw = function(data) {
-      console.log(data)
+      console.log(previousX, previousY)
+      console.log(data.x+startX,data.y+startY)
+      App.ctx.beginPath()
+      App.ctx.moveTo(previousX, previousY);
+      App.ctx.lineWidth = 5;
       App.ctx.lineTo(data.x+startX,data.y+startY)
-      App.ctx.strokeStyle = data.color
+      App.ctx.strokeStyle = "#" + data.color
       App.ctx.stroke()
+      previousX = data.x+startX;
+      previousY = data.y+startY;
     }
 
     App.socket.on('draw', App.draw)
 
     $(function() {
         App.ctx = $('canvas')[0].getContext("2d")
-        App.ctx.beginPath()
-        App.ctx.moveTo(startX, startY);
-        App.ctx.lineWidth = 5;
     })
 </script>
-<canvas width="800px" height="400px" style="margin: 0 auto"></canvas>
+<canvas width="1900px" height="1000px" style="margin: 0 auto;border:1px solid #eee;"></canvas>
